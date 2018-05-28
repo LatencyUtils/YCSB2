@@ -70,7 +70,7 @@ public class BasicDB extends DB
             final long deadline = now + delayNs;
             do {
                 LockSupport.parkNanos(deadline - now);
-            } while ((now = System.nanoTime()) < deadline && !Thread.interrupted());
+            } while (((now = System.nanoTime())- deadline) < 0 && !Thread.interrupted());
 		}
 	}
 
