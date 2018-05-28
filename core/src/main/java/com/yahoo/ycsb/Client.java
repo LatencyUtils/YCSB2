@@ -288,12 +288,12 @@ class ClientThread extends Thread
 	}
 
     static void sleepUntil(long deadline) {
-        long now = System.nanoTime();
-        while((now = System.nanoTime()) < deadline) {
-            if (!_spinSleep) {
-                LockSupport.parkNanos(deadline - now);
-            }
-        }
+		long untilDeadline;
+		while ((untilDeadline = (deadline - System.nanoTime())) > 0) {
+			if (!_spinSleep) {
+				LockSupport.parkNanos(untilDeadline);
+			}
+		}
     }
     private void throttleNanos(long startTimeNanos) {
         //throttle the operations
